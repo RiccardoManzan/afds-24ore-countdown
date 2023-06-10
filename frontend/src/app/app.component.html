@@ -1,15 +1,25 @@
 <section id="container">
-  <img id="hero" src="../assets/hero.jpg"/>
-  <div id="text-container" >
-    <p style="font-size: 2.5em; line-height: 0.75em;">23:01:01</p>
+  <img id="hero" src="../assets/hero.jpg" />
+  <div id="text-container">
+    <p id="countdown" [class]="{ blink: !showCountdown || isCountdownCompleted }">
+      <ng-template #standby>STAND-BY</ng-template>
+      <countdown
+        *ngIf="showCountdown; else standby"
+        [config]="countdownConfig"
+        (event)="handleCountdownEvent($event)"
+      />
+    </p>
     <p>
-      <span style="font-size: 10em; line-height: 0.75em;">450450</span>
-      <span style="font-size: 2.5em;">ml</span>
+      <span style="font-size: 10em; line-height: 0.75em">450450</span>
+      <span style="font-size: 2.5em">ml</span>
     </p>
     <div id="actions" *ngIf="isAuthenticated">
-      <button #bloodButton (click)="registerDonation('blood', bloodButton)">SANGUE</button>
-      <button #plasmaButton (click)="registerDonation('plasma', plasmaButton)">PLASMA</button>
+      <button #bloodButton (click)="registerDonation('blood', bloodButton)">
+        SANGUE
+      </button>
+      <button #plasmaButton (click)="registerDonation('plasma', plasmaButton)">
+        PLASMA
+      </button>
     </div>
-
   </div>
 </section>

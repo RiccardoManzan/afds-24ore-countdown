@@ -28,6 +28,11 @@
     flex-direction: column;
     align-items: center;
 
+    #countdown{
+      font-size: 2.5em;
+      line-height: 0.75em;
+    }
+
     #actions {
       display: flex;
       margin-top: 2em;
@@ -68,5 +73,15 @@
       bottom: 0;
     }
     background-color: #e3e3e3;
+  }
+}
+
+.blink {
+  animation: blinker 1s step-end infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
   }
 }
