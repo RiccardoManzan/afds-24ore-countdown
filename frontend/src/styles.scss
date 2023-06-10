@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+  background-color: #393939;
+  display: flex;
+  align-content: center;
+  min-height: 100%;
+  font-family: Montserrat;
+  font-weight: bold;
+  margin:0;
+  p {
+    margin: 1rem 0
+  }
+}
+html{
+  height:100%
+}
+app-root {
+  display: contents
+}
