@@ -1,4 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+:root{
+  @media (min-aspect-ratio: 2657/1890) {
+    font-size: calc(1vh/48 * 100);
+  }
+  @media (max-aspect-ratio: 2657/1890){
+    font-size: calc(1vw /67.5 * 100);
+  }
+}
+
 body{
   background-color: #393939;
   display: flex;
