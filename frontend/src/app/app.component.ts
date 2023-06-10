@@ -1,8 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { async } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from 'environments/environment.development';
 import { CountdownConfig, CountdownEvent, CountdownStatus } from 'ngx-countdown';
+import { environment } from 'src/environments/environment.development';
 import { moreThan24HoursDateFormatter } from './countdown-utils';
 
 @Component({
