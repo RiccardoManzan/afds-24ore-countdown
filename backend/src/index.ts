@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import basicAuth from "express-basic-auth";
 import winston from "winston";
 import expressWinston from "express-winston";
+import cors from "cors";
 
 const app: Express = express();
 const port = process.env.PORT ?? 8080;
@@ -21,13 +22,15 @@ const logger = winston.createLogger({
 	level: "info",
 	format: winston.format.combine(winston.format.timestamp(), winston.format.colorize(), simpleTimestamp()),
 	transports: [
-		//
-		// - Write all logs with importance level of `error` or less to `error.log`
-		// - Write all logs with importance level of `info` or less to `combined.log`
-		//
 		new winston.transports.Console(),
 	],
 });
+
+const origins = process.env.ORIGINS?.split(",") ?? []
+logger.info("configure cors to use origins", origins)
+app.use(cors({
+  origin: origins
+}))
 
 const authMiddleware = basicAuth({
 	users: { usr: "pwd" },
@@ -35,17 +38,17 @@ const authMiddleware = basicAuth({
 	realm: authRealm,
 });
 
-app.get("/ping", (req: Request, res: Response) => {
+app.get("/api/ping", (req: Request, res: Response) => {
 	logger.info("received ping");
 	res.send("pong");
 });
 
-app.get("/login", authMiddleware, (req: Request, res: Response) => {
+app.get("/api/login", authMiddleware, (req: Request, res: Response) => {
 	logger.info("login success");
 	res.sendStatus(204);
 });
 
-app.post("/register-donation/:type", authMiddleware, (req: Request, res: Response) => {
+app.post("/api/register-donation/:type", authMiddleware, (req: Request, res: Response) => {
 	switch (req.params.type) {
 		case "blood":
 			logger.info("registering new blood donation");
@@ -59,7 +62,7 @@ app.post("/register-donation/:type", authMiddleware, (req: Request, res: Respons
 	res.sendStatus(204);
 });
 
-app.get("/donations", (req: Request, res: Response) => {
+app.get("/api/donations", (req: Request, res: Response) => {
 	res.send({ plasmaCount: 20, bloodCount: 50 });
 });
 

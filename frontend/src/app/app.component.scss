@@ -85,3 +85,18 @@
     opacity: 0;
   }
 }
+
+button.hidden-btn{
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  height: 3em;
+  width: 3em;
+  border-radius: 1.5em;
+  background: none;
+  border: none;
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+  }
+}

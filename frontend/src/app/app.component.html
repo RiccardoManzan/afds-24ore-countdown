@@ -23,3 +23,6 @@
     </div>
   </div>
 </section>
+
+<button *ngIf="!isAuthenticated" class="hidden-btn" (click)="login()">🗝️</button>
+<button *ngIf="isAuthenticated" class="hidden-btn" (click)="logout()">🔒</button>
