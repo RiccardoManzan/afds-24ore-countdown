@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "license-report --output=markdown > THIRD-PARTY-LICENSES.md",
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
