@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -8,14 +8,14 @@ import {
 } from 'ngx-countdown';
 import { environment } from 'src/environments/environment';
 import { moreThan24HoursDateFormatter } from './countdown-utils';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, interval, Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
   };
   showCountdown = false;
   isCountdownCompleted = new Date() > environment.countdownEndDate;
+  reloader?: Subscription;
+  public displayCount: number = 0;
 
   ngOnInit(): void {
     void (async () => {
@@ -42,6 +44,22 @@ export class AppComponent implements OnInit {
         await new Promise((r) => setTimeout(r, 1000));
       }
     })();
+
+    this.reloader = timer(0, environment.counterPollingTimeout).subscribe(
+      () => {
+        firstValueFrom(
+          this.http.get<{ plasmaCount: number; bloodCount: number }>(
+            `${environment.apiBasePath}/donations`
+          )
+        ).then((res) => {
+          this.displayCount = res.bloodCount * 450 + res.plasmaCount * 750;
+        });
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.reloader?.unsubscribe();
   }
 
   handleCountdownEvent(event: CountdownEvent) {
