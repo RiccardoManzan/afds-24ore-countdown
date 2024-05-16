@@ -15,10 +15,16 @@ app.use(
 	})
 );
 
-const users: any = {}
-users[process.env.USERNAME!!] = process.env.PASSWORD
-const authMiddleware = basicAuth({
-	users: users,
+//NB: Not the best approach at all, but does the job and is enough secure for the usage
+const admins: {[key: string]: string} = {}
+const voters: {[key: string]: string} = {}
+admins[process.env.ADMIN_USERNAME!!] = process.env.ADMIN_PASSWORD!!
+voters[process.env.VOTER_USERNAME!!] = process.env.VOTER_PASSWORD!!
+const getAuthMiddleware = (adminRestricted: boolean = true) => basicAuth({
+	users: {
+		... ( !adminRestricted ? voters : {} ),
+		...admins,
+	},
 	challenge: true,
 	realm: authRealm,
 });
@@ -28,12 +34,12 @@ app.get("/api/ping", (req: Request, res: Response) => {
 	res.send("pong");
 });
 
-app.get("/api/login", authMiddleware, (req: Request, res: Response) => {
+app.get("/api/login", getAuthMiddleware(), (req: Request, res: Response) => {
 	logger.info("login success");
 	res.sendStatus(204);
 });
 
-app.post("/api/register-donation/:type", authMiddleware, async (req: Request, res: Response) => {
+app.post("/api/register-donation/:type", getAuthMiddleware(), async (req: Request, res: Response) => {
 	switch (req.params.type) {
 		case "blood":
 			logger.info("registering new blood donation");
