@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "afds-24ore-countdown-frontend:build:production"
+              "buildTarget": "afds-24ore-countdown-frontend:build:production"
             },
             "development": {
-              "browserTarget": "afds-24ore-countdown-frontend:build:development"
+              "buildTarget": "afds-24ore-countdown-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "afds-24ore-countdown-frontend:build"
+            "buildTarget": "afds-24ore-countdown-frontend:build"
           }
         },
         "test": {
