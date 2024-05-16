@@ -20,6 +20,7 @@ const admins: {[key: string]: string} = {}
 const voters: {[key: string]: string} = {}
 admins[process.env.ADMIN_USERNAME!!] = process.env.ADMIN_PASSWORD!!
 voters[process.env.VOTER_USERNAME!!] = process.env.VOTER_PASSWORD!!
+logger.info(`Admins loaded: ${Object.keys(admins)} , voters loaded: ${Object.keys(voters)}`)
 const getAuthMiddleware = (adminRestricted: boolean = true) => basicAuth({
 	users: {
 		... ( !adminRestricted ? voters : {} ),
