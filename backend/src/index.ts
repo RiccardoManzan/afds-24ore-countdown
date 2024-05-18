@@ -1,69 +1,74 @@
 import express, { Express, Request, Response } from "express";
-import basicAuth from "express-basic-auth";
 import cors from "cors";
 import { logger, registerErrorLogging } from "./logger.js";
-import mongo from "./mongo.js";
-const app: Express = express();
-const port = process.env.PORT ?? 8080;
-const authRealm = process.env.AUTH_REALM ?? "24ore";
+import { initializeMongo, mongo } from "./mongo.js";
+import {getAuthMiddleware, initializeAuth, usersByRole} from "./auth";
 
-const origins = process.env.ORIGINS?.split(",") ?? [];
-logger.info("configure cors to use origins", origins);
-app.use(
-	cors({
-		origin: origins,
-	})
-);
+(async () => {
+	logger.info("Startup in progress 🚀")
+	await initializeMongo().catch((error: Error) => {
+		logger.error("Database connection failed", error);
+		process.exit();
+	});
 
-//NB: Not the best approach at all, but does the job and is enough secure for the usage
-const admins: {[key: string]: string} = {}
-const voters: {[key: string]: string} = {}
-admins[process.env.ADMIN_USERNAME!!] = process.env.ADMIN_PASSWORD!!
-voters[process.env.VOTER_USERNAME!!] = process.env.VOTER_PASSWORD!!
-logger.info(`Admins loaded: ${Object.keys(admins)} , voters loaded: ${Object.keys(voters)}`)
-const getAuthMiddleware = (adminRestricted: boolean = true) => basicAuth({
-	users: {
-		... ( !adminRestricted ? voters : {} ),
-		...admins,
-	},
-	challenge: true,
-	realm: authRealm,
-});
+	initializeAuth();
 
-app.get("/api/ping", (req: Request, res: Response) => {
-	logger.info("received ping");
-	res.send("pong");
-});
+	const app: Express = express();
+	registerErrorLogging(app);
 
-app.get("/api/login", getAuthMiddleware(), (req: Request, res: Response) => {
-	logger.info("login success");
-	res.sendStatus(204);
-});
+	const origins = process.env.ORIGINS?.split(",") ?? [];
+	logger.info("configure cors to use origins", origins);
+	app.use(
+		cors({
+			origin: origins,
+		})
+	);
 
-app.post("/api/register-donation/:type", getAuthMiddleware(), async (req: Request, res: Response) => {
-	switch (req.params.type) {
-		case "blood":
-			logger.info("registering new blood donation");
-			(await mongo).collection("donations").findOneAndUpdate({}, { $inc: { bloodCount: 1 } }, { sort: { _id: -1 }, upsert: true });
-			break;
-		case "plasma":
-			logger.info("registering new plasma donation");
-			(await mongo).collection("donations").findOneAndUpdate({}, { $inc: { plasmaCount: 1 } }, { sort: { _id: -1 }, upsert: true });
-			break;
-		default:
-			res.sendStatus(400);
-	}
-	res.sendStatus(204);
-});
+	app.get("/api/ping", (req: Request, res: Response) => {
+		logger.info("received ping");
+		res.send("pong");
+	});
 
-app.get("/api/donations", async (req: Request, res: Response) => {
-	const results = await (await mongo).collection("donations").find().sort({ _id: -1 }).limit(1).toArray();
-	const result = results[0] as any|undefined;
-	res.send({ plasmaCount: result?.plasmaCount ?? 0, bloodCount: result?.bloodCount ?? 0 });
-});
+	app.get("/api/login", getAuthMiddleware(), (req: Request, res: Response) => {
+		logger.info(`login success for ${(req as any).auth.user}`);
+		res.sendStatus(204);
+	});
 
-registerErrorLogging(app);
+	app.get("/api/role", getAuthMiddleware(), (req: Request, res: Response) => {
+		const username = (req as any).auth.user;
+		const role = usersByRole.admins[username] != undefined ? "admin" : "voter"
+		res.send({role})
+	});
 
-app.listen(port, () => {
-	logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
-});
+	app.post("/api/register-donation/:type", getAuthMiddleware(), async (req: Request, res: Response) => {
+		switch (req.params.type) {
+			case "blood":
+				logger.info("registering new blood donation");
+				await mongo.donations.findOneAndUpdate({}, {$inc: {bloodCount: 1}}, {
+					sort: {_id: -1},
+					upsert: true
+				});
+				break;
+			case "plasma":
+				logger.info("registering new plasma donation");
+				await mongo.donations.findOneAndUpdate({}, { $inc: { plasmaCount: 1 } }, { sort: { _id: -1 }, upsert: true });
+				break;
+			default:
+				res.sendStatus(400);
+		}
+		res.sendStatus(204);
+	});
+
+	app.get("/api/donations", async (req: Request, res: Response) => {
+		const results = await mongo.donations.find().sort({ _id: -1 }).limit(1).toArray();
+		const result = results[0] as any|undefined;
+		res.send({ plasmaCount: result?.plasmaCount ?? 0, bloodCount: result?.bloodCount ?? 0 });
+	});
+
+
+	const port = process.env.PORT ?? 8080;
+	app.listen(port, () => {
+		logger.info(`⚡️[server]: Server is running at http://localhost:${port}`);
+	});
+
+})()

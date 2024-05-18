@@ -1,13 +1,30 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import {Collection, Db, MongoClient, ServerApiVersion} from "mongodb";
+import {logger} from "./logger";
 
-const conn = MongoClient.connect(process.env.MONGODB!!, {
-	serverApi: {
-		version: ServerApiVersion.v1,
-		strict: true,
-		deprecationErrors: true,
-	},
-});
 
-let db = conn.then((x) => x.db("afds-countdown"));
+export const mongo : {
+	connection: MongoClient,
+	db: Db,
+	donations: Collection< {
+		plasmaCount? : number
+		bloodCount? : number
+	}>
+} = {} as any
 
-export default db;
+export const initializeMongo = async () =>  {
+
+	logger.info("Initializing mongo connection")
+	mongo.connection = await MongoClient.connect(process.env.MONGODB!!, {
+		serverApi: {
+			version: ServerApiVersion.v1,
+			strict: true,
+			deprecationErrors: true,
+		},
+	});
+
+	mongo.db = mongo.connection.db("afds-countdown");
+
+	mongo.donations = mongo.db.collection("donations")
+
+	logger.info("Mongo connection initialize")
+}
