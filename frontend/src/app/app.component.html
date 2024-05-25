@@ -3,11 +3,17 @@
   <div id="text-container">
 
     <app-countdown-wrapper />
-    <app-donation-controls  *ngIf="auth.isAuthenticated" />
-    <p>
-      <span style="font-size: 10em; line-height: 0.75em">{{displayCount}}</span>
-      <span style="font-size: 2.5em">ml</span>
+    <p
+      id="countWrapper"
+      [ngClass]="{shuffleCount: enableDisplayCountAnimation}"
+    >
+        <span *ngFor="let char of displayCountChars" class="letter">{{char}}</span>
+      <span style="font-size:0.25em">ml</span>
     </p>
+    <app-donation-controls
+      *ngIf="auth.isAuthenticated"
+      (submit)="onDonationsSubmit()"
+    />
   </div>
 </section>
 

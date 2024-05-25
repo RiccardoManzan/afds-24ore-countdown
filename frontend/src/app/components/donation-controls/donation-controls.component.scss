@@ -26,3 +26,14 @@
 
   }
 }
+
+@keyframes press-button {
+  50% {
+    box-shadow:0 0 0;
+    margin: {
+      top: .125em;
+      bottom: 0;
+    }
+    background-color: #e3e3e3;
+  }
+}

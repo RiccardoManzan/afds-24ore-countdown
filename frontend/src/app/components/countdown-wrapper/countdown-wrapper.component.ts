@@ -94,6 +94,9 @@ export class CountdownWrapperComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    if(this.showPreCountdownTimerId){
+      clearTimeout(this.showPreCountdownTimerId);
+    }
     this.statusSub.unsubscribe();
   }
 }

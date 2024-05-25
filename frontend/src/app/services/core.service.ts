@@ -47,9 +47,7 @@ export class CoreService implements OnDestroy {
     return aKeys.every((k) => a[k] == b[k]);
   }
 
-  registerDonation(type: 'blood' | 'plasma', element: HTMLButtonElement) {
-    setTimeout(() => (window.document as any).activeElement?.blur(), 760);
-
+  registerDonation(type: 'blood' | 'plasma') {
     this.http
       .post(
         `${environment.apiBasePath}/register-donation/${type}`,

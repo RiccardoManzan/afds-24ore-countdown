@@ -29,17 +29,28 @@ export class AppComponent implements OnDestroy {
     private readonly router: Router,
     private readonly coreService: CoreService,
     public readonly auth: AuthService,
-  ) {
-  }
+  ) {}
 
-  public displayCount: number = 0;
+  public displayCountChars: string[] = ['0'];
   private readonly statusSub = this.coreService.donations.subscribe((s) => {
-      this.displayCount = s
-        ? s.bloodCount * 450 + s.plasmaCount * 750
-        : 0;
-    });
+    const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
+    this.displayCountChars = displayCount.toString().split('');
+  });
+  public enableDisplayCountAnimation = false;
+  private displayCountAnimationTimeout: any
 
   ngOnDestroy() {
-    this.statusSub.unsubscribe()
+    this.statusSub.unsubscribe();
+  }
+
+
+  onDonationsSubmit() {
+    this.enableDisplayCountAnimation = true;
+    if(this.displayCountAnimationTimeout){
+      clearTimeout(this.displayCountAnimationTimeout);
+    }
+    setTimeout(() => {
+      this.enableDisplayCountAnimation = false;
+    }, environment.counterPollingTimeout);
   }
 }
