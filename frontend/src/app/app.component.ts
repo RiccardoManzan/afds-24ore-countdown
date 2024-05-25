@@ -35,22 +35,22 @@ export class AppComponent implements OnDestroy {
   private readonly statusSub = this.coreService.donations.subscribe((s) => {
     const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
     this.displayCountChars = displayCount.toString().split('');
+    this.animateCounter(2000);
   });
   public enableDisplayCountAnimation = false;
-  private displayCountAnimationTimeout: any
+  private displayCountAnimationTimeout: any;
 
   ngOnDestroy() {
     this.statusSub.unsubscribe();
   }
 
-
-  onDonationsSubmit() {
+  animateCounter(animationTimeoutOverride:undefined|number = undefined) {
     this.enableDisplayCountAnimation = true;
-    if(this.displayCountAnimationTimeout){
+    if (this.displayCountAnimationTimeout) {
       clearTimeout(this.displayCountAnimationTimeout);
     }
     setTimeout(() => {
       this.enableDisplayCountAnimation = false;
-    }, environment.counterPollingTimeout);
+    }, animationTimeoutOverride ?? environment.counterPollingTimeout);
   }
 }

@@ -12,7 +12,7 @@
     </p>
     <app-donation-controls
       *ngIf="auth.isAuthenticated"
-      (submit)="onDonationsSubmit()"
+      (submit)="animateCounter()"
     />
   </div>
 </section>
