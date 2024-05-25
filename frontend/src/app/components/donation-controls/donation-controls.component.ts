@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Output} from '@angular/core';
 import { CoreService } from '../../services/core.service';
 
 @Component({
@@ -24,5 +24,21 @@ export class DonationControlsComponent {
     setTimeout(() => {
       this.disabled = false
     }, 1000)
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    switch (event.key){
+      case "s":
+      case "S":
+        this.registerDonation('blood')
+        break;
+      case "p":
+      case "P":
+        this.registerDonation('plasma')
+        break;
+    }
+
+   console.log( event.key );
   }
 }
