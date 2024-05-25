@@ -59,10 +59,23 @@ import {getAuthMiddleware, initializeAuth, usersByRole} from "./auth";
 		res.sendStatus(204);
 	});
 
-	app.get("/api/donations", async (req: Request, res: Response) => {
-		const results = await mongo.donations.find().sort({ _id: -1 }).limit(1).toArray();
+	app.get("/api/state", async (req: Request, res: Response) => {
+		const results = await mongo.donations
+			.find()
+			.sort({ _id: -1 })
+			.limit(1)
+			.toArray();
 		const result = results[0] as any|undefined;
-		res.send({ plasmaCount: result?.plasmaCount ?? 0, bloodCount: result?.bloodCount ?? 0 });
+		res.send({
+			donations: {
+				plasmaCount: result?.plasmaCount ?? 0,
+				bloodCount: result?.bloodCount ?? 0
+			},
+			countdown: {
+				startDate: new Date('2024-05-25 11:23:15'),
+				endDate: new Date('2024-05-26 11:23:15'),
+			}
+		});
 	});
 
 

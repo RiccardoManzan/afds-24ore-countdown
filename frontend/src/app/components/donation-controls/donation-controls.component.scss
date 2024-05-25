@@ -1,0 +1,28 @@
+#actions {
+  display: flex;
+  margin-top: 2em;
+  button{
+    width: 8em;
+    text-align: center;
+    border: none;
+    color: #393939;
+    font-weight: bold;
+    background-color: #fff;
+    box-shadow: 0 .125em .25em #393939;
+    margin: {
+      top: 0;
+      bottom: .125em;
+      left: 1em;
+      right: 1em;
+    }
+    font-size: 2em;
+    height: 2em;
+    border-radius: 1em;
+    padding: 0 1em;
+
+    &:focus{
+      animation: press-button 0.75s;
+    }
+
+  }
+}

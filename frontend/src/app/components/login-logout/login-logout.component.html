@@ -1,0 +1,2 @@
+<button *ngIf="!auth.isAuthenticated" class="hidden-btn" (click)="auth.login()">🗝️</button>
+<button *ngIf="auth.isAuthenticated" class="hidden-btn" (click)="auth.logout()">🔒</button>

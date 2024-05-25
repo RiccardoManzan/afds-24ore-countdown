@@ -1,0 +1,14 @@
+#countdown{
+  font-size: 2.5em;
+  line-height: 0.75em;
+}
+
+.blink {
+  animation: blinker 1s step-end infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
