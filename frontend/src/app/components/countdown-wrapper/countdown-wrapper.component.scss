@@ -1,6 +1,7 @@
-#countdown{
+#countdown {
   font-size: 2.5em;
   line-height: 0.75em;
+  height: 1.875em;
 }
 
 .blink {
@@ -9,6 +10,31 @@
 
 @keyframes blinker {
   50% {
+    opacity: 0;
+  }
+}
+
+
+#pre-countdown {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  animation: pulser 1s ease infinite;
+}
+
+@keyframes pulser {
+  0% {
+
+    opacity: 100%
+  }
+
+  15% {
+    opacity: 100%
+  }
+  85% {
+    font-size: 22em;
+    opacity: 0%;
+  }
+  100% {
     opacity: 0;
   }
 }

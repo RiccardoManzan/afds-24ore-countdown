@@ -1,8 +1,20 @@
-<p id="countdown" [class]="{ blink: !countConfig().showCountdown || isCountdownCompleted() }">
-  <ng-template #standby>STAND-BY</ng-template>
+<p id="countdown" [class]="{ blink: (!showCountdown && !showPreCountdown) || isCountdownCompleted }">
+
+  <ng-container *ngIf="!showCountdown && !showPreCountdown">
+    STAND-BY
+  </ng-container>
+
   <countdown
-    *ngIf="countConfig().showCountdown; else standby"
-    [config]="countConfig().countdownConfig"
+    id="pre-countdown"
+    *ngIf="showPreCountdown"
+    [config]="preCountdownConfig"
+    (event)="handlePreCountdownEvent($event)"
+  />
+
+  <countdown
+    *ngIf="showCountdown"
+    [config]="countdownConfig"
     (event)="handleCountdownEvent($event)"
   />
+
 </p>

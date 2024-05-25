@@ -26,3 +26,5 @@ export const moreThan24HoursDateFormatter: CountdownFormatFn = ({ date, formatSt
     return current;
   }, formatStr);
 }
+
+
