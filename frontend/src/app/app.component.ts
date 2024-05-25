@@ -35,7 +35,7 @@ export class AppComponent implements OnDestroy {
   private readonly statusSub = this.coreService.donations.subscribe((s) => {
     const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
     this.displayCountChars = displayCount.toString().split('');
-    this.animateCounter(2000);
+    this.animateCounter();
   });
   public enableDisplayCountAnimation = false;
   private displayCountAnimationTimeout: any;
@@ -44,13 +44,13 @@ export class AppComponent implements OnDestroy {
     this.statusSub.unsubscribe();
   }
 
-  animateCounter(animationTimeoutOverride:undefined|number = undefined) {
+  animateCounter() {
     this.enableDisplayCountAnimation = true;
     if (this.displayCountAnimationTimeout) {
-      clearTimeout(this.displayCountAnimationTimeout);
+      return;
     }
     setTimeout(() => {
       this.enableDisplayCountAnimation = false;
-    }, animationTimeoutOverride ?? environment.counterPollingTimeout);
+    }, 2500);
   }
 }

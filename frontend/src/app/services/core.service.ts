@@ -59,6 +59,11 @@ export class CoreService implements OnDestroy {
         },
       )
       .subscribe();
+
+    const donations = this.donations.value;
+    if (type == 'blood') donations!!.bloodCount++;
+    else donations!!.plasmaCount++;
+    this.donations.next(donations)
   }
 }
 
