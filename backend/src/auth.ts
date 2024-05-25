@@ -14,7 +14,7 @@ export const initializeAuth = () => {
 }
 
 
-export const getAuthMiddleware = (adminRestricted: boolean = true) => basicAuth({
+export const getAuthMiddleware = (adminRestricted: boolean = false) => basicAuth({
     users: {
         ... ( !adminRestricted ? usersByRole.voters : {} ),
         ... usersByRole.admins,

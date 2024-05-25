@@ -65,10 +65,12 @@ export class CountdownWrapperComponent implements OnDestroy {
         this.showPreCountdownTimerId = setTimeout(() => {
           console.log("starting pre-countdown")
           this.showPreCountdown = true;
+          this.isCountdownCompleted = false
         }, preStartDate.valueOf() - now.valueOf());
       } else {
         console.log("starting pre-countdown immediately")
         this.showPreCountdown = true;
+        this.isCountdownCompleted = false
       }
     } else {
       this.showCountdown = true;

@@ -1,14 +1,14 @@
 <section id="container">
-  <img id="hero" src="../assets/hero.jpg" />
+  <img id="hero" src="../assets/hero.jpg"/>
   <div id="text-container">
 
-    <app-countdown-wrapper />
+    <app-countdown-wrapper/>
     <p
       id="countWrapper"
       [ngClass]="{shuffleCount: enableDisplayCountAnimation}"
     >
-        <span *ngFor="let char of displayCountChars" class="letter">{{char}}</span>
-      <span style="font-size:0.25em">ml</span>
+      <span *ngFor="let char of displayCountChars" class="letter">{{ char }}</span>
+      <span style="font-size:0.25em; line-height:normal; align-self: end">ml</span>
     </p>
     <app-donation-controls
       *ngIf="auth.isAuthenticated"
@@ -17,4 +17,5 @@
   </div>
 </section>
 
-<app-login-logout />
+<app-login-logout/>
+<app-admin-controls *ngIf="auth.role == 'admin'"/>

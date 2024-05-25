@@ -33,9 +33,11 @@ export class AppComponent implements OnDestroy {
 
   public displayCountChars: string[] = ['0'];
   private readonly statusSub = this.coreService.donations.subscribe((s) => {
-    const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
-    this.displayCountChars = displayCount.toString().split('');
     this.animateCounter();
+    setTimeout(() => {
+      const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
+      this.displayCountChars = displayCount.toString().split('');
+    }, this.displayCountChars.length == 1 ? 0 : 600)
   });
   public enableDisplayCountAnimation = false;
   private displayCountAnimationTimeout: any;
@@ -51,6 +53,6 @@ export class AppComponent implements OnDestroy {
     }
     setTimeout(() => {
       this.enableDisplayCountAnimation = false;
-    }, 2500);
+    }, 3000);
   }
 }

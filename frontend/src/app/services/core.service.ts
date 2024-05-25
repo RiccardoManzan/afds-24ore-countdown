@@ -65,10 +65,85 @@ export class CoreService implements OnDestroy {
     else donations!!.plasmaCount++;
     this.donations.next(donations)
   }
+
+  removeDonation(type: string) {
+    this.http
+      .post(
+        `${environment.apiBasePath}/remove-donation/${type}`,
+        {},
+        {
+          headers: {
+            Authorization: this.auth.getAuthHeader(),
+          },
+        },
+      )
+      .subscribe();
+
+    const donations = this.donations.value;
+    if (type == 'blood') donations!!.bloodCount--;
+    else donations!!.plasmaCount--;
+    this.donations.next(donations)
+  }
+
+  stopCountdown() {
+    this.http
+      .post(
+        `${environment.apiBasePath}/countdown/stop`,
+        {},
+        {
+          headers: {
+            Authorization: this.auth.getAuthHeader(),
+          },
+        },
+      )
+      .subscribe();
+  }
+
+  restartCountdown() {
+    this.http
+      .post(
+        `${environment.apiBasePath}/countdown/restart`,
+        {},
+        {
+          headers: {
+            Authorization: this.auth.getAuthHeader(),
+          },
+        },
+      )
+      .subscribe();
+  }
+
+  resumeCountdown() {
+    this.http
+      .post(
+        `${environment.apiBasePath}/countdown/resume`,
+        {},
+        {
+          headers: {
+            Authorization: this.auth.getAuthHeader(),
+          },
+        },
+      )
+      .subscribe();
+  }
+
+  endCountdown() {
+    this.http
+      .post(
+        `${environment.apiBasePath}/countdown/end`,
+        {},
+        {
+          headers: {
+            Authorization: this.auth.getAuthHeader(),
+          },
+        },
+      )
+      .subscribe();
+  }
 }
 
 type DonationsStatus = { plasmaCount: number; bloodCount: number };
-type CountdownStatus = { startDate: Date; endDate: Date };
+type CountdownStatus = { startDate: Date; endDate: Date, mode: "manual" | "auto" };
 type Status = {
   donations: DonationsStatus;
   countdown: CountdownStatus;

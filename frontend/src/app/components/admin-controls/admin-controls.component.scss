@@ -1,0 +1,63 @@
+#admin-actions {
+  @media only screen and (max-width: 850px) {
+    font-size: 1.9em;
+  }
+  position: absolute;
+  bottom: 0em;
+  right: 0%;
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+
+  div {
+
+    text-align: center;
+  }
+
+  #show-hide {
+    width: 1em;
+    padding: 0.5em 0.5em 0.5em 1em ;
+    font-size: 1.5em;
+    background: white;
+    border-radius: 1.5em 0 0 1.5em;
+    cursor: pointer
+  }
+
+  #actions {
+    background: white;
+    padding: 0.2em;
+
+    display: flex;
+    width: 0;
+    transition: width 1s;
+    overflow: hidden;
+
+    &.visible {
+      width: 50em;
+    }
+
+
+    div {
+      margin: 0 0.5em;
+
+      &.active {
+        background: #cb1718;
+      }
+
+      div:first-child {
+        margin: 0 -0.25em -0.25em -0.25em;
+        font-size: 1.25em;
+        cursor: pointer;
+        width: 2em;
+        margin:  0 auto
+
+      }
+
+      div:last-child {
+        margin-bottom: -0.25em;
+      }
+    }
+
+  }
+
+}

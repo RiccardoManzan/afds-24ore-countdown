@@ -9,6 +9,8 @@ button.hidden-btn{
   background: none;
   border: none;
   opacity: 0;
+  cursor: pointer;
+
   &:hover {
     opacity: 1;
   }

@@ -1,0 +1,29 @@
+<div id="admin-actions">
+  <div id="show-hide" (click)="visible = !visible">👑</div>
+  <div id="actions" [ngClass]="{visible: visible}">
+    <div>
+      <div (click)="removeDonation('blood')"> -🩸</div>
+      <div> remove blood</div>
+    </div>
+    <div>
+      <div (click)="removeDonation('plasma')"> -🟡</div>
+      <div> remove plasma</div>
+    </div>
+    <div [ngClass]="{active: mode == 'auto'}">
+      <div (click)="resumeCountdown()">🕒</div>
+      <div> resume countdown</div>
+    </div>
+    <div [ngClass]="{active: mode == 'manual'}">
+      <div (click)="stopCountdown()">⏹️</div>
+      <div> stop countdown</div>
+    </div>
+    <div [ngClass]="{active: mode == 'manual'}">
+      <div (click)="restartCountdown()">↪️</div>
+      <div> restart countdown</div>
+    </div>
+    <div [ngClass]="{active: mode == 'manual'}">
+      <div (click)="endCountdown()">⏩</div>
+      <div> end countdown</div>
+    </div>
+  </div>
+</div>
