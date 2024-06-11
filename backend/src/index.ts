@@ -111,8 +111,8 @@ import {getAuthMiddleware, initializeAuth, usersByRole} from "./auth";
 			case "stop":
 				logger.info("stopping countdown (manual mode)");
 				await mongo.countdown.findOneAndUpdate({}, {$set: {
-						startDate: new Date("2100-01-01 00:00:00"),
-						endDate: new Date("2100-01-01 00:00:00"),
+						startDate: new Date("2000-01-01 00:00:00"),
+						endDate: new Date("2000-01-01 00:00:00"),
 						mode: "manual"
 					}}, {
 					sort: {_id: -1},
@@ -155,8 +155,8 @@ import {getAuthMiddleware, initializeAuth, usersByRole} from "./auth";
 			case "end":
 				logger.info("terminating countdown (manual mode)");
 				await mongo.countdown.findOneAndUpdate({}, {$set: {
-						startDate: new Date("2000-01-01 00:00:00"),
-						endDate: new Date("2000-01-01 00:00:00"),
+						startDate: new Date("2100-01-01 00:00:00"),
+						endDate: new Date("2100-01-01 00:00:00"),
 						mode: "manual"
 					}}, {
 					sort: {_id: -1},
