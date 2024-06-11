@@ -124,8 +124,7 @@ import {getAuthMiddleware, initializeAuth, usersByRole} from "./auth";
 				const start = new Date()
 				start.setTime(start.getTime() + 15 * 1000)
 				const end = new Date()
-				end.setHours(start.getHours() + 24)
-				end.setTime(start.getTime() + 15 * 1000)
+				end.setTime(start.getTime() + (24*60*60*1000))
 
 				await mongo.countdown.findOneAndUpdate({}, {$set: {
 						startDate: start,
