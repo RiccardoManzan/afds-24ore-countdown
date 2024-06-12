@@ -18,4 +18,4 @@
 </section>
 
 <app-login-logout/>
-<app-admin-controls *ngIf="auth.role == 'admin'"/>
+<app-admin-controls *ngIf="auth.isAuthenticated && auth.role == 'admin'"/>

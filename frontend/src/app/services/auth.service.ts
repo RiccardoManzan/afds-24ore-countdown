@@ -47,6 +47,7 @@ export class AuthService {
   logout() {
     sessionStorage.removeItem('Authorization');
     this.isAuthenticated = false;
+    this.role = undefined;
   }
 
   getAuthHeader() {
