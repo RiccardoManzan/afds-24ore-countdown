@@ -60,3 +60,29 @@ When the countdown will be completed, the timer will stop at 00:00:00 and will s
 ![end](./docs/countdown-after-end.png)
 
 All these behaviours can be triggered by using the admin actions.
+
+## Build and run
+
+### Frontend
+
+Requirements: `Node v18`
+
+First it is required to install the npm dependencies using the command `npm ci`.
+
+The application can be launched in dev mode using the command `npm start`.
+This will launch the angular live server, which will watch and compile the code, plus will provide a localwebserver which will expose the application on `localhost:4200`.
+
+For production purposes, the compilation can be executed by using the command `npm run build`, this will compile the source code and put the artifacts in the dist directory.
+
+### Backend
+
+Requirements: `Node v18`, `dotenv`
+
+First it is required to install the npm dependencies using the command `npm ci`.
+
+Secondly it is required to generate a .env file from the .env.example file, also adjusting some values if needed.
+
+The application can be launched in dev mode using the command `dotenv npm run dev`. This will watch and compile the code, also it will start the node process with autorestart at every build.
+
+For production environment, it is possible to launch the compilation by using the command `npm run build`
+Also it is required to launch the application using the command `npm run start` os simply `node dist/index.js`
