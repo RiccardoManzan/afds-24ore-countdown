@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 export class CoreService implements OnDestroy {
   private readonly poller?: Subscription;
   public readonly donations = new BehaviorSubject<DonationsStatus | undefined>(
-    undefined,
+    {plasmaCount: 0, bloodCount: 0},
   );
   public readonly countdown = new BehaviorSubject<CountdownStatus | undefined>(
     undefined,

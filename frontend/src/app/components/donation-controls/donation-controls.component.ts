@@ -13,17 +13,19 @@ export class DonationControlsComponent {
   constructor(public readonly coreService: CoreService) {}
 
   registerDonation(type: 'blood' | 'plasma') {
+    console.log('cooldown status', this.disabled)
+    setTimeout(() => (window.document as any).activeElement?.blur(), 550);
     if (this.disabled) {
-      (window.document as any).activeElement?.blur()
+      console.log('skipping registration because of cooldown')
       return;
     }
     this.disabled = true
-    setTimeout(() => (window.document as any).activeElement?.blur(), 1000);
     this.coreService.registerDonation(type);
     this.submitEmitter.emit();
     setTimeout(() => {
-      this.disabled = false
-    }, 1000)
+      console.log('resetting cooldown')
+     this.disabled = false
+    }, 500)
   }
 
   @HostListener('document:keypress', ['$event'])
