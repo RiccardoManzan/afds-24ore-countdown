@@ -16,9 +16,9 @@
   }
 
   #text-container {
-    color: white;
+    color: black;
     position: absolute;
-    top: 10%;
+    top: 7%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -62,7 +62,7 @@
       left: 0;
       width: 100%;
       word-break: break-all;
-      background-color: #cb1718;
+      background-color: #fecb1c;
     }
 
     .letter:nth-last-child(1):before {
