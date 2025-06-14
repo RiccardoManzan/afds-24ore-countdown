@@ -9,6 +9,7 @@ import { CountdownWrapperComponent } from './components/countdown-wrapper/countd
 import {DonationControlsComponent} from "./components/donation-controls/donation-controls.component";
 import {LoginLogoutComponent} from "./components/login-logout/login-logout.component";
 import {AdminControlsComponent} from "./components/admin-controls/admin-controls.component";
+import { FullscreenControlComponent } from "./components/fullscreen-control/fullscreen-control.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {AdminControlsComponent} from "./components/admin-controls/admin-controls
     CountdownWrapperComponent,
     DonationControlsComponent,
     LoginLogoutComponent,
-    AdminControlsComponent
+    AdminControlsComponent,
+    FullscreenControlComponent
   ],
   imports: [
     BrowserModule,
