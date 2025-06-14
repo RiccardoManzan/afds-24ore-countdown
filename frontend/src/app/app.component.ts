@@ -35,7 +35,7 @@ export class AppComponent implements OnDestroy {
   private readonly statusSub = this.coreService.donations.subscribe((s) => {
     this.animateCounter();
     setTimeout(() => {
-      const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 750 : 0;
+      const displayCount = s ? s.bloodCount * 450 + s.plasmaCount * 720 : 0;
       this.displayCountChars = displayCount.toString().split('');
     }, this.displayCountChars.length == 1 ? 0 : 600)
   });
